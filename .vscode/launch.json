@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": true,
       "externalConsole": false,
-      "cwd": "/Users/karenweng/playground/aps105/lab5",
-      "program": "/Users/karenweng/playground/aps105/lab5/build/Debug/outDebug",
+      "cwd": "/Users/karenweng/playground/aps105/other",
+      "program": "/Users/karenweng/playground/aps105/other/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb"
     }
