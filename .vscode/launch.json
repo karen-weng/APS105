@@ -3,15 +3,11 @@
   "configurations": [
     {
       "name": "C/C++ Runner: Debug Session",
-      "type": "cppdbg",
+      "type": "lldb",
       "request": "launch",
       "args": [],
-      "stopAtEntry": true,
-      "externalConsole": false,
-      "cwd": "/Users/karenweng/playground/aps105/lab7",
-      "program": "/Users/karenweng/playground/aps105/lab7/build/Debug/outDebug",
-      "MIMode": "gdb",
-      "miDebuggerPath": "gdb"
+      "cwd": "/Users/karenweng/playground/aps105/lab8",
+      "program": "/Users/karenweng/playground/aps105/lab8/build/Debug/outDebug"
     }
   ]
 }
