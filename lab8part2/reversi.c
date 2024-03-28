@@ -1,4 +1,5 @@
-#include "lab8part1.h"
+#include "liblab8part2.h"
+#include "lab8part2.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -7,7 +8,7 @@ void printBoard(char board[][26], int n);
 void initalBoard(char board[][26], int n);
 bool fullBoard(char board[][26], int n);
 void findWinner(char board[][26], int n);
-void setupValidMoves (char validMoves[][26], int n);
+void setupValidMoves(char validMoves[][26], int n);
 bool positionInBounds(int n, int row, int col);
 bool checkLegalInDirection(char board[][26], int n, int row, int col, char colour, int deltaRow, int deltaCol);
 void updateBoard(char board[][26], int n, char colour, int rowIndex, int colIndex);
@@ -17,8 +18,8 @@ bool noMoves(char validMoves[][26], int n);
 bool checkValidMove(char validMoves[][26], char row, char col);
 void bestMove(char board[][26], char validMoves[][26], int n, char colour, int bestMoveIndex[]);
 
-
-int main(void) {
+int main(void)
+{
     char computerColour, userColour, userRow, userCol;
     int n;
     int turn = 0; // 0 comp , 1 user
@@ -30,39 +31,47 @@ int main(void) {
     printf("Enter the board dimension: ");
     scanf("%d", &n);
     printf("Computer plays (B/W): ");
-    scanf(" %c", &computerColour); 
+    scanf(" %c", &computerColour);
 
-    if (computerColour == 'B'){
+    if (computerColour == 'B')
+    {
         userColour = 'W';
     }
-    else {
+    else
+    {
         userColour = 'B';
         turn++;
     }
 
     initalBoard(board, n);
 
-
     bool continueplaying = true;
-    while (continueplaying) {
-        if (fullBoard(board, n)){
+    while (continueplaying)
+    {
+        if (fullBoard(board, n))
+        {
             findWinner(board, n);
             continueplaying = false;
             break;
         }
 
-        if (turn % 2 == 1) { 
+        if (turn % 2 == 1)
+        {
             findValidMove(board, validMovesUser, n, userColour);
-            if(noMoves(validMovesUser, n)) { 
+            if (noMoves(validMovesUser, n))
+            {
                 printf("%c player has no valid move.\n", userColour);
             }
-            else{ 
+            else
+            {
                 printf("Enter move for colour %c (RowCol): ", userColour);
                 scanf(" %c %c", &userRow, &userCol);
-                if (checkValidMove(validMovesUser, userRow, userCol)){
-                    updateBoard(board, n, userColour, userRow - 'a', userCol - 'a');  
+                if (checkValidMove(validMovesUser, userRow, userCol))
+                {
+                    updateBoard(board, n, userColour, userRow - 'a', userCol - 'a');
                 }
-                else{
+                else
+                {
                     printf("Invalid move.\n");
                     printf("%c player wins.\n", computerColour);
                     continueplaying = false;
@@ -70,12 +79,15 @@ int main(void) {
                 }
             }
         }
-        else { 
+        else
+        {
             findValidMove(board, validMovesComputer, n, computerColour);
-            if(noMoves(validMovesComputer, n)) { 
+            if (noMoves(validMovesComputer, n))
+            {
                 printf("%c player has no valid move.\n", computerColour);
             }
-            else {
+            else
+            {
                 bestMove(board, validMovesComputer, n, computerColour, bestMoveIndex);
                 printf("Computer places %c at %c%c.\n", computerColour, bestMoveIndex[0] + 97, bestMoveIndex[1] + 97);
                 updateBoard(board, n, computerColour, bestMoveIndex[0], bestMoveIndex[1]);
@@ -123,17 +135,21 @@ void initalBoard(char board[][26], int n)
     board[n / 2 - 1][n / 2 - 1] = 'W';
 
     board[n / 2 - 1][n / 2] = 'B';
-    board[n / 2][n / 2-1] = 'B';
+    board[n / 2][n / 2 - 1] = 'B';
 
     printBoard(board, n);
 }
 
-bool fullBoard(char board[][26], int n) {
+bool fullBoard(char board[][26], int n)
+{
     bool ifFull = true;
 
-    for(int row = 0; row < n; row++) {
-        for(int col = 0; col < n; col++) {
-            if(board[row][col] == 'U') {
+    for (int row = 0; row < n; row++)
+    {
+        for (int col = 0; col < n; col++)
+        {
+            if (board[row][col] == 'U')
+            {
                 ifFull = false;
                 break;
             }
@@ -142,32 +158,42 @@ bool fullBoard(char board[][26], int n) {
     return ifFull;
 }
 
-void findWinner(char board[][26], int n){
+void findWinner(char board[][26], int n)
+{
     int blackCounter = 0;
     int whiteCounter = 0;
 
-    for(int row = 0; row < n; row++) {
-        for(int col = 0; col < n; col++) {
-            if (board[row][col] == 'B'){
+    for (int row = 0; row < n; row++)
+    {
+        for (int col = 0; col < n; col++)
+        {
+            if (board[row][col] == 'B')
+            {
                 blackCounter++;
             }
-            else {
+            else
+            {
                 whiteCounter++;
             }
         }
     }
 
-    if (blackCounter > whiteCounter) {
+    if (blackCounter > whiteCounter)
+    {
         printf("B player wins.");
     }
-    else {
+    else
+    {
         printf("W player wins.");
     }
 }
 
-void setupValidMoves (char validMoves[][26], int n) {
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
+void setupValidMoves(char validMoves[][26], int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
             validMoves[i][j] = 'N';
         }
     }
@@ -179,10 +205,10 @@ bool positionInBounds(int n, int row, int col)
     {
         return false;
     }
-    else{
+    else
+    {
         return true;
     }
-    
 }
 
 bool checkLegalInDirection(char board[][26], int n, int row, int col, char colour, int deltaRow, int deltaCol)
@@ -191,7 +217,8 @@ bool checkLegalInDirection(char board[][26], int n, int row, int col, char colou
     int nextRow = row + deltaRow;
     int nextCol = col + deltaCol;
 
-    if (!positionInBounds(n, nextRow, nextCol) || board[nextRow][nextCol] == 'U' || board[nextRow][nextCol] == colour) {
+    if (!positionInBounds(n, nextRow, nextCol) || board[nextRow][nextCol] == 'U' || board[nextRow][nextCol] == colour)
+    {
         return false;
     }
 
@@ -212,7 +239,7 @@ bool checkLegalInDirection(char board[][26], int n, int row, int col, char colou
 
 void updateBoard(char board[][26], int n, char colour, int rowIndex, int colIndex)
 {
-    
+
     board[rowIndex][colIndex] = colour;
 
     for (int rowDir = -1; rowDir <= 1; rowDir++)
@@ -241,8 +268,10 @@ void flipColourInDir(char board[][26], char colour, int row, int col, int deltaR
 
 void findValidMove(char board[][26], char validMoves[][26], int n, char colour)
 {
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
             validMoves[i][j] = 'N';
         }
     }
@@ -252,7 +281,8 @@ void findValidMove(char board[][26], char validMoves[][26], int n, char colour)
     {
         for (int col = 0; col < n; ++col)
         {
-            if (board[row][col] == 'U') {
+            if (board[row][col] == 'U')
+            {
                 available = false;
                 for (int rowDir = -1; rowDir <= 1; rowDir++)
                 {
@@ -264,8 +294,9 @@ void findValidMove(char board[][26], char validMoves[][26], int n, char colour)
                         }
                     }
                 }
-            
-                if (available) {
+
+                if (available)
+                {
                     validMoves[row][col] = 'Y';
                 }
             }
@@ -273,44 +304,57 @@ void findValidMove(char board[][26], char validMoves[][26], int n, char colour)
     }
 }
 
-
-bool noMoves(char validMoves[][26], int n) {
+bool noMoves(char validMoves[][26], int n)
+{
     bool moveFound = true;
-        for(int row = 0; row < n; row++) {
-            for(int col = 0; col < n; col++) {
-                if(validMoves[row][col] == 'Y') {
-                    moveFound = false;
-                    break;
-                }
+    for (int row = 0; row < n; row++)
+    {
+        for (int col = 0; col < n; col++)
+        {
+            if (validMoves[row][col] == 'Y')
+            {
+                moveFound = false;
+                break;
             }
         }
+    }
     return moveFound;
 }
 
-bool checkValidMove(char validMoves[][26], char row, char col) {
-    if(validMoves[row - 97][col - 97] == 'Y') {
+bool checkValidMove(char validMoves[][26], char row, char col)
+{
+    if (validMoves[row - 97][col - 97] == 'Y')
+    {
         return true;
     }
-    else {
+    else
+    {
         return false;
     }
 }
 
-void bestMove(char board[][26], char validMoves[][26], int n, char colour, int bestMoveIndex[]) 
+void bestMove(char board[][26], char validMoves[][26], int n, char colour, int bestMoveIndex[])
 {
     int score = 0;
     int counter = 0;
     int bestScore = -1;
-    
-    for(int row = 0; row < n; row++) {
-        for(int col = 0; col < n; col++) {
+
+    for (int row = 0; row < n; row++)
+    {
+        for (int col = 0; col < n; col++)
+        {
             score = 0;
-            if(validMoves[row][col] == 'Y') {                
-                for(int rowDir = -1; rowDir <= 1; rowDir++) {
-                    for(int colDir = -1; colDir <= 1; colDir++) {
+            if (validMoves[row][col] == 'Y')
+            {
+                for (int rowDir = -1; rowDir <= 1; rowDir++)
+                {
+                    for (int colDir = -1; colDir <= 1; colDir++)
+                    {
                         counter = 0;
-                        if (checkLegalInDirection(board, n, row, col, colour, rowDir, colDir) && !(rowDir == 0 && colDir == 0)) {
-                            while(board[row + rowDir*(counter+1)][col + colDir*(counter+1)] != colour && positionInBounds(n, row + rowDir*(counter+1), col + colDir*(counter+1))) {
+                        if (checkLegalInDirection(board, n, row, col, colour, rowDir, colDir) && !(rowDir == 0 && colDir == 0))
+                        {
+                            while (board[row + rowDir * (counter + 1)][col + colDir * (counter + 1)] != colour && positionInBounds(n, row + rowDir * (counter + 1), col + colDir * (counter + 1)))
+                            {
                                 score++;
                                 counter++;
                             }
@@ -318,7 +362,8 @@ void bestMove(char board[][26], char validMoves[][26], int n, char colour, int b
                     }
                 }
             }
-            if(score > bestScore) {
+            if (score > bestScore)
+            {
                 bestMoveIndex[0] = row;
                 bestMoveIndex[1] = col;
                 bestScore = score;

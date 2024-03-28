@@ -6,8 +6,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/karenweng/playground/aps105/lab8",
-      "program": "/Users/karenweng/playground/aps105/lab8/build/Debug/outDebug"
+      "cwd": "/Users/karenweng/playground/aps105/lab8part2",
+      "program": "/Users/karenweng/playground/aps105/lab8part2/build/Debug/outDebug"
     }
   ]
 }
