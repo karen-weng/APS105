@@ -18,6 +18,11 @@ bool noMoves(char validMoves[][26], int n);
 bool checkValidMove(char validMoves[][26], char row, char col);
 void bestMove(char board[][26], char validMoves[][26], int n, char colour, int bestMoveIndex[]);
 
+// int makeMove(int bestMoveIndex[], int index)
+// {
+//     return bestMoveIndex[index];
+// }
+
 int main(void)
 {
     char computerColour, userColour, userRow, userCol;
@@ -27,6 +32,7 @@ int main(void)
     char validMovesUser[26][26];
     char validMovesComputer[26][26];
     int bestMoveIndex[2] = {-1, -1};
+    int row, col;
 
     printf("Enter the board dimension: ");
     scanf("%d", &n);
@@ -64,11 +70,14 @@ int main(void)
             }
             else
             {
-                printf("Enter move for colour %c (RowCol): ", userColour);
-                scanf(" %c %c", &userRow, &userCol);
-                if (checkValidMove(validMovesUser, userRow, userCol))
+                findSmartestMove(board, n, userColour, &row, &col);
+                printf("Testing AI move (row, col): %c%c\n", row + 'a', col + 'a');
+
+                // printf("Enter move for colour %c (RowCol): ", userColour);
+                // scanf(" %c %c", &userRow, &userCol);
+                if (checkValidMove(validMovesUser, row + 'a', col + 'a'))
                 {
-                    updateBoard(board, n, userColour, userRow - 'a', userCol - 'a');
+                    updateBoard(board, n, userColour, row, col);
                 }
                 else
                 {
@@ -77,6 +86,18 @@ int main(void)
                     continueplaying = false;
                     break;
                 }
+
+                // if (checkValidMove(validMovesUser, userRow, userCol))
+                // {
+                //     updateBoard(board, n, userColour, userRow - 'a', userCol - 'a');
+                // }
+                // else
+                // {
+                //     printf("Invalid move.\n");
+                //     printf("%c player wins.\n", computerColour);
+                //     continueplaying = false;
+                //     break;
+                // }
             }
         }
         else
@@ -88,9 +109,15 @@ int main(void)
             }
             else
             {
-                bestMove(board, validMovesComputer, n, computerColour, bestMoveIndex);
-                printf("Computer places %c at %c%c.\n", computerColour, bestMoveIndex[0] + 97, bestMoveIndex[1] + 97);
-                updateBoard(board, n, computerColour, bestMoveIndex[0], bestMoveIndex[1]);
+            // bestMove(board, validMovesComputer, n, computerColour, bestMoveIndex);
+            // printf("Computer places %c at %c%c.\n", computerColour, makeMove(bestMoveIndex, 0) + 97, makeMove(bestMoveIndex, 1) + 97);
+            // updateBoard(board, n, computerColour, makeMove(bestMoveIndex, 0), makeMove(bestMoveIndex, 1));
+        
+            
+            bestMove(board, validMovesComputer, n, computerColour, bestMoveIndex);
+            printf("Computer places %c at %c%c.\n", computerColour, bestMoveIndex[0] + 97, bestMoveIndex[1] + 97);
+            updateBoard(board, n, computerColour, bestMoveIndex[0], bestMoveIndex[1]);
+            
             }
         }
         turn++;
@@ -335,9 +362,45 @@ bool checkValidMove(char validMoves[][26], char row, char col)
 
 void bestMove(char board[][26], char validMoves[][26], int n, char colour, int bestMoveIndex[])
 {
+    // int score = 0;
+    // int counter = 0;
+    // int bestScore = -1;
+
+    // for (int row = 0; row < n; row++)
+    // {
+    //     for (int col = 0; col < n; col++)
+    //     {
+    //         score = 0;
+    //         if (validMoves[row][col] == 'Y')
+    //         {
+    //             for (int rowDir = -1; rowDir <= 1; rowDir++)
+    //             {
+    //                 for (int colDir = -1; colDir <= 1; colDir++)
+    //                 {
+    //                     counter = 0;
+    //                     if (checkLegalInDirection(board, n, row, col, colour, rowDir, colDir) && !(rowDir == 0 && colDir == 0))
+    //                     {
+    //                         while (board[row + rowDir * (counter + 1)][col + colDir * (counter + 1)] != colour && positionInBounds(n, row + rowDir * (counter + 1), col + colDir * (counter + 1)))
+    //                         {
+    //                             score++;
+    //                             counter++;
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //         if (score > bestScore)
+    //         {
+    //             bestMoveIndex[0] = row;
+    //             bestMoveIndex[1] = col;
+    //             bestScore = score;
+    //         }
+    //     }
+    // }
+
     int score = 0;
     int counter = 0;
-    int bestScore = -1;
+    int bestScore = -20;
 
     for (int row = 0; row < n; row++)
     {
@@ -346,10 +409,28 @@ void bestMove(char board[][26], char validMoves[][26], int n, char colour, int b
             score = 0;
             if (validMoves[row][col] == 'Y')
             {
+                if (row == 0 && col == 0 || row == 0 && col == n - 1 || row == n - 1 && col == 0 || row == n - 1 && col == n - 1)
+                {
+                    score += 15;//corner's are superior
+                }
+                else if (row == 0 && col == 1 || row == 0 && col == n - 2 || row == 1 && col == 0 || row == 1 && col == n - 1 || row == n - 2 && col == 0 || row == n - 2 && col == n - 1 || row == n - 1 && col == 1 || row == 0 && col == n - 2)
+                {
+                    score -= 2;
+                }
+                else if (row == 1 && col == 1 || row == 1 && col == n - 2 || row == n - 2 && col == 1 || row == n - 2 && col == n - 2)
+                {
+                    score -= 3;
+                }
+                else if (row < n / 2 + 2 && row > n / 2 - 2 && col < n / 2 + 2 && col > n / 2 - 2)
+                {
+                    score += 5;
+                }
+
                 for (int rowDir = -1; rowDir <= 1; rowDir++)
                 {
                     for (int colDir = -1; colDir <= 1; colDir++)
                     {
+                        
                         counter = 0;
                         if (checkLegalInDirection(board, n, row, col, colour, rowDir, colDir) && !(rowDir == 0 && colDir == 0))
                         {
@@ -361,13 +442,15 @@ void bestMove(char board[][26], char validMoves[][26], int n, char colour, int b
                         }
                     }
                 }
+
+                if (score > bestScore)
+                {
+                    bestMoveIndex[0] = row;
+                    bestMoveIndex[1] = col;
+                    bestScore = score;
+                }
             }
-            if (score > bestScore)
-            {
-                bestMoveIndex[0] = row;
-                bestMoveIndex[1] = col;
-                bestScore = score;
-            }
+            
         }
     }
 }

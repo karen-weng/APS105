@@ -13,8 +13,12 @@
   ],
   "C_Cpp_Runner.enableWarnings": true,
   "C_Cpp_Runner.warningsAsError": false,
-  "C_Cpp_Runner.compilerArgs": [],
-  "C_Cpp_Runner.linkerArgs": [],
+  "C_Cpp_Runner.compilerArgs": [
+    "\"${/Users/karenweng/playground/aps105/lab8part2}/liblab8part2.a\""
+  ],
+  "C_Cpp_Runner.linkerArgs": [
+    "\"${/Users/karenweng/playground/aps105/lab8part2}/liblab8part2.a\""
+  ],
   "C_Cpp_Runner.includePaths": [],
   "C_Cpp_Runner.includeSearch": [
     "*",
@@ -49,5 +53,13 @@
   "C_Cpp_Runner.useLeakSanitizer": false,
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
-  "C_Cpp_Runner.msvcSecureNoWarnings": false
+  "C_Cpp_Runner.msvcSecureNoWarnings": false,
+  "files.associations": {
+    "__bit_reference": "c",
+    "__string": "c",
+    "algorithm": "c",
+    "ios": "c",
+    "string": "c",
+    "type_traits": "c"
+  }
 }
